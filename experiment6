@@ -1,0 +1,18 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder
+
+data={'Color':['Red','Green','Blue','Red','Green']}
+df=pd.DataFrame(data)
+
+label_encoder=LabelEncoder()
+print(df)
+df['Color_encoded']=label_encoder.fit_transform(df['Color'])
+
+one_hot_encoder=OneHotEncoder(sparse=False)
+
+color_encoded=one_hot_encoder.fit_transform(df[['Color']])
+one_hot_df=pd.DataFrame(color_encoded,columns=one_hot_encoder.get_feature_names(['Color']))
+df=pd.concat([df,one_hot_df],axis=1)
+
+df.drop('Color',axis=1,inplace=True)
+print(df)
